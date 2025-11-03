@@ -45,3 +45,20 @@ class DiffService:
                 lineterm="",
             )
         )
+
+    def diff_metadata(self) -> List[str]:
+        metadata1 = self.reader1.get_metadata()
+        metadata2 = self.reader2.get_metadata()
+
+        metadata1_str = json.dumps(metadata1, indent=2, sort_keys=True)
+        metadata2_str = json.dumps(metadata2, indent=2, sort_keys=True)
+
+        return list(
+            difflib.unified_diff(
+                metadata1_str.splitlines(keepends=True),
+                metadata2_str.splitlines(keepends=True),
+                fromfile=f"{self.file1_path} (metadata)",
+                tofile=f"{self.file2_path} (metadata)",
+                lineterm="",
+            )
+        )

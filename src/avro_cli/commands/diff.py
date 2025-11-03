@@ -8,9 +8,9 @@ from avro_cli.services.diff_service import DiffService
 @click.argument("file2", type=click.Path(exists=True))
 @click.option(
     "--mode",
-    type=click.Choice(["data", "schema"]),
+    type=click.Choice(["data", "schema", "metadata"]),
     default="data",
-    help="What to diff: data or schema (default: data)",
+    help="What to diff: data, schema, or metadata (default: data)",
 )
 def diff(file1: str, file2: str, mode: str):
     try:
@@ -18,6 +18,8 @@ def diff(file1: str, file2: str, mode: str):
 
         if mode == "schema":
             diff_lines = service.diff_schemas()
+        elif mode == "metadata":
+            diff_lines = service.diff_metadata()
         else:
             diff_lines = service.diff_data()
 
